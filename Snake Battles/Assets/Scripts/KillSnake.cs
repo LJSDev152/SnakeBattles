@@ -9,11 +9,16 @@ public class KillSnake : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Check if the collision is with the SnakeHeadObj
+        // Check if the collision is with the EnemyHeadObj
         if (collision.transform == EnemyTail.EnemyHeadObj)
         {
-            Debug.Log("Hit");
-            EnemyTail.RemoveEnemy();
+            EnemyTail.KillEnemy();
+        }
+
+        // Check if the collision is with the SnakeHeadObj
+        if (collision.transform == SnakeTail.SnakeHeadObj)
+        {
+            SnakeTail.KillPlayer();
         }
     }
 }

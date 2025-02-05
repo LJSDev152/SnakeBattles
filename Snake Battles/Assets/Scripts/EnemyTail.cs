@@ -10,13 +10,15 @@ public class EnemyTail : MonoBehaviour
     // Set as public so the script is accessible to other scripts
     public RandomSpawn RandomSpawn;
 
+    public GameObject Enemy;
+
     public Transform EnemyTailObj;
     public Transform EnemyHeadObj;
 
     public List<Transform> enemyTail = new List<Transform>();
     public List<Vector2> enemyPositions = new List<Vector2>();
 
-    // All set to private as not used in other scripts
+    // Set to private as not used in other scripts
     private float circDiameter = 0.5f;
     private bool enemyAlive = true;
 
@@ -31,7 +33,6 @@ public class EnemyTail : MonoBehaviour
     private void Update()
     {
         CalculateEnemyPositions();
-        DestroyEnemy();
     }
 
     // Everything is stored as a method so they can be easily changed to public & be accessible to other scripts if needed, improving their flexibility, reusability & readability of the code
@@ -106,22 +107,10 @@ public class EnemyTail : MonoBehaviour
         }
     }
 
-    public void RemoveEnemy()
+    public void KillEnemy()
     {
         enemyAlive = false;
-        enemyTail.Clear();
-        enemyPositions.Clear();
-    }
-
-    private void DestroyEnemy()
-    {
-        if (! enemyAlive)
-        {
-            if (gameObject.name == "EnemyTail(Clone)")
-            {
-                Destroy(gameObject);
-            }
-        }
+        Destroy(Enemy);
     }
 }
 

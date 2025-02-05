@@ -10,11 +10,15 @@ public class SnakeTail : MonoBehaviour
     // Set as public so the script is accessible to other scripts
     public RandomSpawn RandomSpawn;
 
+    public GameObject Snake;
+
     public Transform SnakeTailObj;
     public Transform SnakeHeadObj;
 
     public List<Transform> snakeTail = new List<Transform>();
     public List<Vector2> positions = new List<Vector2>();
+
+    public bool snakeAlive = true;
 
     // All set to private as not used in other scripts
     private float circDiameter = 0.5f;
@@ -48,42 +52,48 @@ public class SnakeTail : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             AddTail();
-        }
+        }       
     }
 
     private void CalculatePositions()
     {
-        // Calculate the distance between the head and the last segment to be inserted, .magnitude used to make the value read-only
-        float distance = ((Vector2)SnakeTailObj.position - positions[0]).magnitude;
-
-        // Keeps all tail positions of the snake in sync with the head's position
-        if (distance > circDiameter)
+        if (snakeAlive)
         {
-            // Calculates the direction for all tails to follow, .normalised used to prevent unwanted faster movement when the snake moves diagonally
-            Vector2 direction = ((Vector2)SnakeTailObj.position - positions[0]).normalized;
+            // Calculate the distance between the head and the last segment to be inserted, .magnitude used to make the value read-only
+            float distance = ((Vector2)SnakeTailObj.position - positions[0]).magnitude;
 
-            // Moves the first position forward by a fixed amount according to circDiameter
-            positions.Insert(0, positions[0] + direction * circDiameter);
-            positions.RemoveAt(positions.Count - 1);
+            // Keeps all tail positions of the snake in sync with the head's position
+            if (distance > circDiameter)
+            {
+                // Calculates the direction for all tails to follow, .normalised used to prevent unwanted faster movement when the snake moves diagonally
+                Vector2 direction = ((Vector2)SnakeTailObj.position - positions[0]).normalized;
 
-            // Resets the distance after modifying positions, -= used to prevent potential visual errors
-            distance -= circDiameter;
-        }
+                // Moves the first position forward by a fixed amount according to circDiameter
+                positions.Insert(0, positions[0] + direction * circDiameter);
+                positions.RemoveAt(positions.Count - 1);
 
-        // Updates each tails segment position, using .Lerp to smoothen this movement
-        for (int i = 0; i < snakeTail.Count; i++)
-        {
-            snakeTail[i].position = Vector2.Lerp(positions[i + 1], positions[i], distance / circDiameter);
+                // Resets the distance after modifying positions, -= used to prevent potential visual errors
+                distance -= circDiameter;
+            }
+
+            // Updates each tails segment position, using .Lerp to smoothen this movement
+            for (int i = 0; i < snakeTail.Count; i++)
+            {
+                snakeTail[i].position = Vector2.Lerp(positions[i + 1], positions[i], distance / circDiameter);
+            }
         }
     }
 
     public void AddTail()
     {
-        // Instantiates a new tail segment and position at the last position in the list positions
-        Transform tail = Instantiate(SnakeTailObj, positions[positions.Count - 1], Quaternion.identity, transform);
-        // Added to both lists to avoid inconsistencies between the two that may lead to inaccurate calculations
-        snakeTail.Add(tail);
-        positions.Add(tail.position);
+        if (snakeAlive)
+        {
+            // Instantiates a new tail segment and position at the last position in the list positions
+            Transform tail = Instantiate(SnakeTailObj, positions[positions.Count - 1], Quaternion.identity, transform);
+            // Added to both lists to avoid inconsistencies between the two that may lead to inaccurate calculations
+            snakeTail.Add(tail);
+            positions.Add(tail.position);
+        }
     }
 
     private void DestroyTail()
@@ -104,6 +114,12 @@ public class SnakeTail : MonoBehaviour
             // Adjusts the size GUI to take 1 away from the current size displayed
             RandomSpawn.RemoveFoodFromSizeCounter();
         }
+    }
+
+    public void KillPlayer()
+    {
+        snakeAlive = false;
+        Destroy(Snake);
     }
 
     private void RunTimer()

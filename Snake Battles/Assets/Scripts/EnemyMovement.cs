@@ -9,6 +9,8 @@ public class EnemyMovement : MonoBehaviour
     public SnakeTail SnakeTail;
     public SnakeGrow SnakeGrow;
 
+    public EnemyTail EnemyTail;
+
     // All set to private as not used in other scripts
     private float enemySpeed = 3f;
 
@@ -31,18 +33,21 @@ public class EnemyMovement : MonoBehaviour
 
     private void DistanceFromNearestSnake()
     {
-        // Calculates the distance between the player's snake (for now) & the enemy snake
-        distance = Vector2.Distance(transform.position, SnakeTail.SnakeTailObj.transform.position);
-
-        // If the player (for now) gets closer than 10 on the x & y axis to the enemy snake, the enemy snake will chase after them
-        if (distance < distanceBetween)
+        if (SnakeTail.snakeAlive)
         {
-            // Movement - Moves the snake towards the player snake (for now) at the same speed as the player's snake
-            transform.position = Vector2.MoveTowards(transform.position, SnakeTail.SnakeTailObj.transform.position, enemySpeed * Time.deltaTime);
+            // Calculates the distance between the player's snake (for now) & the enemy snake
+            distance = Vector2.Distance(transform.position, SnakeTail.SnakeTailObj.transform.position);
 
-            // Rotation - Rotates the snake at the same speed as the player snake
-            transform.Rotate(SnakeMovement.rotateSpeed * Time.deltaTime * -SnakeMovement.velocityX * Vector3.forward);
+            // If the player (for now) gets closer than 10 on the x & y axis to the enemy snake, the enemy snake will chase after them
+            if (distance < distanceBetween)
+            {
+                // Movement - Moves the snake towards the player snake (for now) at the same speed as the player's snake
+                transform.position = Vector2.MoveTowards(transform.position, SnakeTail.SnakeTailObj.transform.position, enemySpeed * Time.deltaTime);
 
+                // Rotation - Rotates the snake at the same speed as the player snake
+                transform.Rotate(SnakeMovement.rotateSpeed * Time.deltaTime * -SnakeMovement.velocityX * Vector3.forward);
+
+            }
         }
     }
 }
