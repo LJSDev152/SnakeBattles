@@ -18,14 +18,16 @@ public class EnemyTail : MonoBehaviour
     public List<Transform> enemyTail = new List<Transform>();
     public List<Vector2> enemyPositions = new List<Vector2>();
 
+    public bool enemyAlive = true;
+
     // Set to private as not used in other scripts
     private float circDiameter = 0.5f;
-    private bool enemyAlive = true;
 
     // Built-in function: Called on first frame
     private void Start()
     {
         InitialiseEnemyPositions();
+        // Sets the first tail object to be the head of the tail, used as part of KillSnake
         EnemyHeadObj = enemyTail[0];
     }
 
@@ -51,6 +53,7 @@ public class EnemyTail : MonoBehaviour
 
     private void CalculateEnemyPositions()
     {
+        // Checks if the enemy has been killed before running the code to prevent a NullReferenceException error
         if (enemyAlive)
         {
             // Calculate the distance between the head and the last segment to be inserted, .magnitude used to make the value read-only
@@ -80,6 +83,7 @@ public class EnemyTail : MonoBehaviour
 
     public void AddEnemyTail()
     {
+        // Checks if the enemy has been killed before running the code to prevent a NullReferenceException error
         if (enemyAlive)
         {
             // Instantiates a new tail segment and position at the last position in the list positions
@@ -109,7 +113,9 @@ public class EnemyTail : MonoBehaviour
 
     public void KillEnemy()
     {
+        // Sets enemyAlive to false to prevent the function CalculateEnemyPositions running when it can't calculate the enemy's position
         enemyAlive = false;
+        // Destroys the enemy snake game object
         Destroy(Enemy);
     }
 }

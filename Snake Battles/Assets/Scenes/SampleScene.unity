@@ -1200,6 +1200,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SnakeTail: {fileID: 1403285690}
   EnemyTail: {fileID: 1011645762}
+  RandomSpawn: {fileID: 0}
+  enemyOrbPositions: []
 --- !u!1 &1041574045
 GameObject:
   m_ObjectHideFlags: 0
@@ -1647,6 +1649,7 @@ MonoBehaviour:
   SnakeHeadObj: {fileID: 720364859}
   snakeTail: []
   positions: []
+  snakeAlive: 1
 --- !u!114 &1403285691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1736,13 +1739,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SnakeTail: {fileID: 1403285690}
-  foodText: {fileID: 1041574047}
-  playerObj: {fileID: 1403285686}
   foodList: []
   foodChoices:
   - {fileID: 8998466730984538448, guid: 4f84da936dd01074787e9449f094cc28, type: 3}
   - {fileID: 8205812033374490755, guid: 77d3c13cb4530664891cd84ac16bef75, type: 3}
   - {fileID: 1574695297583130445, guid: 27675bfee00c24e4cbbfe2211fbff7f2, type: 3}
+  foodAmount: 0
+  foodText: {fileID: 1041574047}
+  playerObj: {fileID: 1403285686}
   foodNearestDistance: 1000
   plrNearestDistance: 1000
 --- !u!114 &1403285695
@@ -1759,6 +1763,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SnakeTail: {fileID: 1403285690}
   EnemyTail: {fileID: 1011645762}
+  RandomSpawn: {fileID: 1403285694}
+  enemyOrbPositions: []
 --- !u!1 &1476119840
 GameObject:
   m_ObjectHideFlags: 0

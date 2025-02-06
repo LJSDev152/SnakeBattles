@@ -13,16 +13,17 @@ public class RandomSpawn : MonoBehaviour
     // Set as public so the script is accessible to other scripts
     public SnakeTail SnakeTail;
 
+    public List<GameObject> foodList = new List<GameObject>();
+    public GameObject[] foodChoices = new GameObject[3];
+
+    public int foodAmount;
+
     // SerializeField allows the value held in the variables below to be visible in the inspector
     // All set to private as not used in other scripts
     [SerializeField] private TextMeshProUGUI foodText;
 
     [SerializeField] private GameObject playerObj;
 
-    [SerializeField] public List<GameObject> foodList = new List<GameObject>();
-    [SerializeField] private GameObject[] foodChoices = new GameObject[3];
-
-    private int foodAmount;
     private int choice;
 
     private Vector2 pos;

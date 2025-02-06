@@ -31,6 +31,7 @@ public class SnakeTail : MonoBehaviour
     private void Start()
     {
         InitialisePositions();
+        // Sets the first tail object to be the head of the tail, used as part of KillSnake
         SnakeHeadObj = snakeTail[0];
     }
 
@@ -57,6 +58,7 @@ public class SnakeTail : MonoBehaviour
 
     private void CalculatePositions()
     {
+        // Checks if the player has been killed before running the code to prevent a NullReferenceException error
         if (snakeAlive)
         {
             // Calculate the distance between the head and the last segment to be inserted, .magnitude used to make the value read-only
@@ -86,6 +88,7 @@ public class SnakeTail : MonoBehaviour
 
     public void AddTail()
     {
+        // Checks if the player has been killed before running the code to prevent a NullReferenceException error
         if (snakeAlive)
         {
             // Instantiates a new tail segment and position at the last position in the list positions
@@ -118,7 +121,9 @@ public class SnakeTail : MonoBehaviour
 
     public void KillPlayer()
     {
+        // Sets snakeAlive to false to prevent the function CalculatePositions running when it can't calculate the player's position
         snakeAlive = false;
+        // Destroys the player snake game object
         Destroy(Snake);
     }
 
