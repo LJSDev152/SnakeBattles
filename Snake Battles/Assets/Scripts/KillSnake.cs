@@ -17,11 +17,6 @@ public class KillSnake : MonoBehaviour
     private int choice;
     private bool spawningFinished = false;
 
-    private void Update()
-    {
-        SpawnPositions();
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // If both are ran then both snakes are killed
@@ -30,6 +25,9 @@ public class KillSnake : MonoBehaviour
         // Check if the collision is with the EnemyHeadObj
         if (collision.transform == EnemyTail.EnemyHeadObj)
         {
+            enemyOrbPositions = EnemyTail.enemyPositions;
+            orbsToSpawn = enemyOrbPositions.Count;
+
             EnemyTail.KillEnemy();
             EnemyOrbDrops();
         }
@@ -43,55 +41,56 @@ public class KillSnake : MonoBehaviour
 
     private void EnemyOrbDrops()
     {
-        if (!EnemyTail.enemyAlive && ! spawningFinished) {
+        if (!EnemyTail.enemyAlive && !spawningFinished)
+        {
             Debug.Log("Entered first bracket");
-            orbsToSpawn = RandomSpawn.foodAmount;
 
-            for (int i = 0; i < orbsToSpawn; i++)
+            for (int i = 0; i < enemyOrbPositions.Count; i++)
             {
                 Debug.Log("Entered second bracket");
-                choice = Random.Range(0, 3);
 
-                for (int j = 0; j < enemyOrbPositions.Count; j++)
+                for (int j = 0; j < orbsToSpawn; j++)
                 {
-                    if (orbsToSpawn - i >= 3)
-                    {
-                        Debug.Log("Entered a third bracket");
-                        GameObject newObj = Instantiate((RandomSpawn.foodChoices)[choice], enemyOrbPositions[j], Quaternion.identity);
-                        (RandomSpawn.foodList).Add(newObj);
-                    }
+                    Debug.Log("Entered third bracket");
+                    choice = Random.Range(0, 3);
+                    int orbsLeftToSpawn = orbsToSpawn - j;
 
-                    if (orbsToSpawn - i == 2)
-                    {
-                        Debug.Log("Entered a third bracket");
-                        GameObject newObj = Instantiate((RandomSpawn.foodChoices)[1], enemyOrbPositions[j], Quaternion.identity);
-                        (RandomSpawn.foodList).Add(newObj);
-                    }
+                    Debug.Log("Choice: " + choice);
+                    Debug.Log("orbsToSpawn: " + orbsToSpawn);
+                    Debug.Log("orbsLeftToSpawn: " + orbsLeftToSpawn);
 
-                    if (orbsToSpawn - i == 1)
+                    if (RandomSpawn.foodList.Count < 10)
                     {
-                        Debug.Log("Entered a third bracket");
-                        GameObject newObj = Instantiate((RandomSpawn.foodChoices)[0], enemyOrbPositions[j], Quaternion.identity);
-                        (RandomSpawn.foodList).Add(newObj);
-                    }
+                        if (orbsLeftToSpawn >= 3)
+                        {
+                            Debug.Log("Entered a fourth bracket");
+                            GameObject newFoodObj = Instantiate((RandomSpawn.foodChoices)[choice], enemyOrbPositions[i], Quaternion.identity);
+                            (RandomSpawn.foodList).Add(newFoodObj);
+                            orbsToSpawn -= choice + 1;
+                        }
 
-                    else
-                    {
-                        spawningFinished = true;
+                        if (orbsLeftToSpawn == 2)
+                        {
+                            Debug.Log("Entered a fourth bracket");
+                            GameObject newFoodObj = Instantiate((RandomSpawn.foodChoices)[1], enemyOrbPositions[i], Quaternion.identity);
+                            (RandomSpawn.foodList).Add(newFoodObj);
+                            orbsToSpawn -= choice + 1;
+                        }
+
+                        if (orbsLeftToSpawn == 1)
+                        {
+                            Debug.Log("Entered a fourth bracket");
+                            GameObject newFoodObj = Instantiate((RandomSpawn.foodChoices)[0], enemyOrbPositions[i], Quaternion.identity);
+                            (RandomSpawn.foodList).Add(newFoodObj);
+                            orbsToSpawn -= choice + 1;
+                        }
+
+                        else
+                        {
+                            spawningFinished = true;
+                        }
                     }
                 }
-            }
-        }
-    }
-
-    private void SpawnPositions()
-    {
-        if (EnemyTail.enemyAlive)
-        {
-            for (int i = 0; i < (EnemyTail.enemyPositions).Count; i++)
-            {
-                enemyOrbPositions.Insert(0, (EnemyTail.enemyPositions)[i]);
-                Debug.Log(enemyOrbPositions[i]);
             }
         }
     }

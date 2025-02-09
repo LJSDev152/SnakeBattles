@@ -1200,7 +1200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SnakeTail: {fileID: 1403285690}
   EnemyTail: {fileID: 1011645762}
-  RandomSpawn: {fileID: 0}
+  RandomSpawn: {fileID: 1403285694}
   enemyOrbPositions: []
 --- !u!1 &1041574045
 GameObject:
