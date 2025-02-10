@@ -150,7 +150,7 @@ public class RandomSpawn : MonoBehaviour
         }
     }
 
-    private void InitialiseSizeCounter()
+    public void InitialiseSizeCounter()
     {
         // Sets text of Size UI to 5 to create the illusion it starts at 5 when it starts at 0 & so it matches the starting size of the snake
         foodText.text = ("Size: 5");

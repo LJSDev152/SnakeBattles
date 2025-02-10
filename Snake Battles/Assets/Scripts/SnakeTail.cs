@@ -9,6 +9,7 @@ public class SnakeTail : MonoBehaviour
 {
     // Set as public so the script is accessible to other scripts
     public RandomSpawn RandomSpawn;
+    public EnemyTail EnemyTail;
 
     public GameObject Snake;
 
@@ -119,12 +120,35 @@ public class SnakeTail : MonoBehaviour
         }
     }
 
+    // Instead of destroying the player object, clone objects of SnakeTail are instead removed as the game is intended to be replayable in runtime
     public void KillPlayer()
     {
         // Sets snakeAlive to false to prevent the function CalculatePositions running when it can't calculate the player's position
         snakeAlive = false;
-        // Destroys the player snake game object
-        Destroy(Snake);
+
+        // Gets all SnakeTail(Clone) objects which are all stored in snakeTail
+        for (int i = 0; i < snakeTail.Count; i++)
+        {
+            // If the name of the object at the current index of snakeTail is true, run this code
+            // This will always be true as all clones of SnakeTail will be given this exact name
+            if (snakeTail[i].gameObject.name == "SnakeTail(Clone)")
+            {
+                // Destroys the gameObject connected to the transform of the current index inside snakeTail
+                Destroy(snakeTail[i].gameObject);
+            }
+        }
+
+        // Clears both lists
+        snakeTail.Clear();
+        positions.Clear();
+    }
+
+    public void GameOver()
+    {
+        Time.timeScale = 0;
+        EnemyTail.KillEnemy();
+        RandomSpawn.foodList.Clear();
+        RandomSpawn.InitialiseSizeCounter();
     }
 
     private void RunTimer()

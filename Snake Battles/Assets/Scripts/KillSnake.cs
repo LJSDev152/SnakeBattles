@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static UnityEditor.PlayerSettings;
 // Reference for Random
@@ -13,7 +14,6 @@ public class KillSnake : MonoBehaviour
 
     [SerializeField] private List<Vector2> enemyOrbPositions = new List<Vector2>();
 
-    private int orbsToSpawn;
     private int choice;
     private bool spawningFinished = false;
 
@@ -25,74 +25,45 @@ public class KillSnake : MonoBehaviour
         // Check if the collision is with the EnemyHeadObj
         if (collision.transform == EnemyTail.EnemyHeadObj)
         {
+            // Sets the list enemyPositions to be equal to the local list enemyOrbPositions so that when the enemy snake dies the positions are not lost & can be run through the attatchment to the player's snake
             enemyOrbPositions = EnemyTail.enemyPositions;
-            orbsToSpawn = enemyOrbPositions.Count;
 
+            // Kills the enemy
             EnemyTail.KillEnemy();
+            // Handles orb drops after the enemy has been killed
             EnemyOrbDrops();
         }
 
         // Check if the collision is with the SnakeHeadObj
         if (collision.transform == SnakeTail.SnakeHeadObj)
         {
+            // Kills the player
             SnakeTail.KillPlayer();
+            SnakeTail.GameOver();
         }
     }
-
     private void EnemyOrbDrops()
     {
+        // These conditions prevent this from running pre-emptively
         if (!EnemyTail.enemyAlive && !spawningFinished)
         {
-            Debug.Log("Entered first bracket");
+            // Using enemyOrbPositions, it stores the number of positions that orbs need to be spawned in as a numerical value
+            int orbsToSpawn = enemyOrbPositions.Count;
 
-            for (int i = 0; i < enemyOrbPositions.Count; i++)
+            // Iterates through the list enemyOrbPositions until an orb has been spawned in every position
+            for (int i = 0; i < orbsToSpawn; i++)
             {
-                Debug.Log("Entered second bracket");
+                // Picks a random number between 0 & 2
+                choice = Random.Range(0, 3);
 
-                for (int j = 0; j < orbsToSpawn; j++)
-                {
-                    Debug.Log("Entered third bracket");
-                    choice = Random.Range(0, 3);
-                    int orbsLeftToSpawn = orbsToSpawn - j;
-
-                    Debug.Log("Choice: " + choice);
-                    Debug.Log("orbsToSpawn: " + orbsToSpawn);
-                    Debug.Log("orbsLeftToSpawn: " + orbsLeftToSpawn);
-
-                    if (RandomSpawn.foodList.Count < 10)
-                    {
-                        if (orbsLeftToSpawn >= 3)
-                        {
-                            Debug.Log("Entered a fourth bracket");
-                            GameObject newFoodObj = Instantiate((RandomSpawn.foodChoices)[choice], enemyOrbPositions[i], Quaternion.identity);
-                            (RandomSpawn.foodList).Add(newFoodObj);
-                            orbsToSpawn -= choice + 1;
-                        }
-
-                        if (orbsLeftToSpawn == 2)
-                        {
-                            Debug.Log("Entered a fourth bracket");
-                            GameObject newFoodObj = Instantiate((RandomSpawn.foodChoices)[1], enemyOrbPositions[i], Quaternion.identity);
-                            (RandomSpawn.foodList).Add(newFoodObj);
-                            orbsToSpawn -= choice + 1;
-                        }
-
-                        if (orbsLeftToSpawn == 1)
-                        {
-                            Debug.Log("Entered a fourth bracket");
-                            GameObject newFoodObj = Instantiate((RandomSpawn.foodChoices)[0], enemyOrbPositions[i], Quaternion.identity);
-                            (RandomSpawn.foodList).Add(newFoodObj);
-                            orbsToSpawn -= choice + 1;
-                        }
-
-                        else
-                        {
-                            spawningFinished = true;
-                        }
-                    }
-                }
+                // Instantiates the foodObject based on which foodObject has been chosen out of foodChoices at the position stored at the current index in the list enemyOrbPositions
+                GameObject newFoodObj = Instantiate(RandomSpawn.foodChoices[choice], enemyOrbPositions[i], Quaternion.identity);
             }
+
+            // Ends the condition as spawningFinished in now true
+            spawningFinished = true;
         }
     }
+
 }
 
