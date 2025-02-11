@@ -16,6 +16,8 @@ public class RandomSpawn : MonoBehaviour
     public List<GameObject> foodList = new List<GameObject>();
     public GameObject[] foodChoices = new GameObject[3];
 
+    public List<GameObject> allFoodObjects = new List<GameObject>();
+
     public int foodAmount;
 
     // SerializeField allows the value held in the variables below to be visible in the inspector
@@ -141,6 +143,7 @@ public class RandomSpawn : MonoBehaviour
             GameObject newObj = Instantiate(foodChoices[choice], pos, Quaternion.identity);
             // The instantiated object is added to the list to prevent trying to delete the prefab, which would cause an error
             foodList.Add(newObj);
+            allFoodObjects.Add(newObj);
         }
 
         // If the above conditions aren't met, a new position is generated

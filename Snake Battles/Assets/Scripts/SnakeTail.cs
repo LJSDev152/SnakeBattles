@@ -138,7 +138,7 @@ public class SnakeTail : MonoBehaviour
             }
         }
 
-        // Clears both lists
+        // Clears all indexes in both lists
         snakeTail.Clear();
         positions.Clear();
     }
@@ -149,6 +149,21 @@ public class SnakeTail : MonoBehaviour
         EnemyTail.KillEnemy();
         RandomSpawn.foodList.Clear();
         RandomSpawn.InitialiseSizeCounter();
+
+        // Gets all food objects which are stored inside the list allFoodObjects
+        for (int i = 0; i < (RandomSpawn.allFoodObjects).Count; i++)
+        {
+            // If the name of the tag of the object at the current index of allFoodObjects is true, run this code
+            // This will always be true as all clones of food objects will have the exact same tag
+            if ((RandomSpawn.allFoodObjects)[i].CompareTag("Food"))
+            {
+                // Destroys the gameObject of the current index inside allFoodObjects
+                Destroy((RandomSpawn.allFoodObjects[i]));
+            }
+        }
+
+        // Clears all indexes in the list allFoodObjects
+        RandomSpawn.allFoodObjects.Clear();
     }
 
     private void RunTimer()

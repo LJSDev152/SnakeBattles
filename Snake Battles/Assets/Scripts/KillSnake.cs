@@ -58,6 +58,7 @@ public class KillSnake : MonoBehaviour
 
                 // Instantiates the foodObject based on which foodObject has been chosen out of foodChoices at the position stored at the current index in the list enemyOrbPositions
                 GameObject newFoodObj = Instantiate(RandomSpawn.foodChoices[choice], enemyOrbPositions[i], Quaternion.identity);
+                RandomSpawn.allFoodObjects.Add(newFoodObj);
             }
 
             // Ends the condition as spawningFinished in now true
