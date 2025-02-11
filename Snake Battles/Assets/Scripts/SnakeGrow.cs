@@ -13,8 +13,8 @@ public class SnakeGrow : MonoBehaviour
     // Built-in function: Called whenever an object with a RigidBody2D & Collider2D (Snake) collides with an object with a Collider2D set as trigger (Food)
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // If Snake collides with an object with the tag "Food", run the code below
-        if (collision.gameObject.CompareTag("Food"))
+        // If Snake collides with an object with the tag "Food", run the code below if the player is alive
+        if (collision.gameObject.CompareTag("Food") && SnakeTail.snakeAlive)
         {
             // Adding tail to player snake
 

@@ -52,34 +52,42 @@ public class RandomSpawn : MonoBehaviour
 
     private void SpawnFood()
     {
-        // If the length of the list foodList is less than 10 then another object is spawned
-        if (foodList.Count < 10)
+        // Checks if the player has been killed before running the code to prevent possible errors
+        if (SnakeTail.snakeAlive)
         {
-            RandomObjSpawn();
+            // If the length of the list foodList is less than 10 then another object is spawned
+            if (foodList.Count < 10)
+            {
+                RandomObjSpawn();
+            }
         }
     }
 
     private void IsFoodObjInCamView()
     {
-        // Loops through all the items in foodList, checking if each index of an object is in view of the camera
-        // This loop iterates backwards to prevent the issue of potentially skipping elements in the list when they are removed
-        for (int i = foodList.Count - 1; i >= 0; i--)
+        // Checks if the player has been killed before running the code to prevent possible errors
+        if (SnakeTail.snakeAlive)
         {
-            // Makes sure their isn't a null object at the current index by removing it from the list before adding another object
-            if (foodList[i] == null)
+            // Loops through all the items in foodList, checking if each index of an object is in view of the camera
+            // This loop iterates backwards to prevent the issue of potentially skipping elements in the list when they are removed
+            for (int i = foodList.Count - 1; i >= 0; i--)
             {
-                foodList.RemoveAt(i);
-            }
+                // Makes sure their isn't a null object at the current index by removing it from the list before adding another object
+                if (foodList[i] == null)
+                {
+                    foodList.RemoveAt(i);
+                }
 
-            // Converts the position of the specified food object from its world position to a viewport point between 0 & 1
-            Vector2 camPos = Camera.main.WorldToViewportPoint(foodList[i].transform.position);
+                // Converts the position of the specified food object from its world position to a viewport point between 0 & 1
+                Vector2 camPos = Camera.main.WorldToViewportPoint(foodList[i].transform.position);
 
-            // Checks if the foodObject's position at a specified index is outside the range of the camera
-            if (camPos.x < 0 || camPos.x > 1 || camPos.y < 0 || camPos.y > 1)
-            {
-                // The GameObject is destroyed first to avoid trying to remove a null object from the list, which would cause an error
-                Destroy(foodList[i]);
-                foodList.RemoveAt(i);
+                // Checks if the foodObject's position at a specified index is outside the range of the camera
+                if (camPos.x < 0 || camPos.x > 1 || camPos.y < 0 || camPos.y > 1)
+                {
+                    // The GameObject is destroyed first to avoid trying to remove a null object from the list, which would cause an error
+                    Destroy(foodList[i]);
+                    foodList.RemoveAt(i);
+                }
             }
         }
     }

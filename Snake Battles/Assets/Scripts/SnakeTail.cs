@@ -59,7 +59,7 @@ public class SnakeTail : MonoBehaviour
 
     private void CalculatePositions()
     {
-        // Checks if the player has been killed before running the code to prevent a NullReferenceException error
+        // Checks if the player has been killed before running the code to prevent possible errors
         if (snakeAlive)
         {
             // Calculate the distance between the head and the last segment to be inserted, .magnitude used to make the value read-only
@@ -89,7 +89,7 @@ public class SnakeTail : MonoBehaviour
 
     public void AddTail()
     {
-        // Checks if the player has been killed before running the code to prevent a NullReferenceException error
+        // Checks if the player has been killed before running the code to prevent possible errors
         if (snakeAlive)
         {
             // Instantiates a new tail segment and position at the last position in the list positions
@@ -135,35 +135,41 @@ public class SnakeTail : MonoBehaviour
             {
                 // Destroys the gameObject connected to the transform of the current index inside snakeTail
                 Destroy(snakeTail[i].gameObject);
+                // Removes each index in turn from the list
+                snakeTail.RemoveAt(i);
+                // Adjusts the index after removal to avoid skipping the next index
+                i--;
             }
         }
 
-        // Clears all indexes in both lists
-        snakeTail.Clear();
+        // Clears all indexes in the list positions
         positions.Clear();
     }
 
     public void GameOver()
     {
         Time.timeScale = 0;
-        EnemyTail.KillEnemy();
-        RandomSpawn.foodList.Clear();
-        RandomSpawn.InitialiseSizeCounter();
 
         // Gets all food objects which are stored inside the list allFoodObjects
         for (int i = 0; i < (RandomSpawn.allFoodObjects).Count; i++)
         {
             // If the name of the tag of the object at the current index of allFoodObjects is true, run this code
             // This will always be true as all clones of food objects will have the exact same tag
-            if ((RandomSpawn.allFoodObjects)[i].CompareTag("Food"))
+            if ((RandomSpawn.allFoodObjects)[i].CompareTag("Food") && (RandomSpawn.allFoodObjects)[i] != null)
             {
                 // Destroys the gameObject of the current index inside allFoodObjects
                 Destroy((RandomSpawn.allFoodObjects[i]));
+                // Removes each index in turn from the list
+                RandomSpawn.allFoodObjects.RemoveAt(i);
+                // Adjusts the index after removal to avoid skipping the next index
+                i--;
+                
             }
         }
 
-        // Clears all indexes in the list allFoodObjects
-        RandomSpawn.allFoodObjects.Clear();
+        EnemyTail.KillEnemy();
+        RandomSpawn.foodList.Clear();
+        RandomSpawn.InitialiseSizeCounter();
     }
 
     private void RunTimer()

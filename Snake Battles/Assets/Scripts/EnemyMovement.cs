@@ -33,7 +33,8 @@ public class EnemyMovement : MonoBehaviour
 
     private void DistanceFromNearestSnake()
     {
-        if (SnakeTail.snakeAlive)
+        // Checks if either the player or enemy has been killed before running the code to prevent possible errors
+        if (SnakeTail.snakeAlive && EnemyTail.enemyAlive)
         {
             // Calculates the distance between the player's snake (for now) & the enemy snake
             distance = Vector2.Distance(transform.position, SnakeTail.SnakeTailObj.transform.position);

@@ -72,14 +72,18 @@ public class SnakeMovement : MonoBehaviour
 
     private void HorizontalMovement()
     {
-        // Move Type - Allows you to use A and D keys to move
-        velocityX = Input.GetAxisRaw("Horizontal");
+        // Checks if the player has been killed before running the code to prevent possible errors
+        if (SnakeTail.snakeAlive)
+        {
+            // Move Type - Allows you to use A and D keys to move
+            velocityX = Input.GetAxisRaw("Horizontal");
 
-        // Movement - Moves the snake in the direction of the translation at set speed
-        transform.Translate(playerSpeed * Time.deltaTime * Vector2.up, Space.Self);
+            // Movement - Moves the snake in the direction of the translation at set speed
+            transform.Translate(playerSpeed * Time.deltaTime * Vector2.up, Space.Self);
 
-        // Rotation - Rotates the snake in the direction the user inputs at set speed
-        transform.Rotate(rotateSpeed * Time.deltaTime * -velocityX * Vector3.forward);
+            // Rotation - Rotates the snake in the direction the user inputs at set speed
+            transform.Rotate(rotateSpeed * Time.deltaTime * -velocityX * Vector3.forward);
+        }
     }
 
     public void MouseMenu()
@@ -100,8 +104,12 @@ public class SnakeMovement : MonoBehaviour
 
     private void FollowMousePosition()
     {
-        // Movement & Rotation - Moves & rotates the snake towards the position of the mouse at set speed
-        transform.position = Vector2.MoveTowards(transform.position, GetWorldPosFromMouse(), playerSpeed * Time.deltaTime);
+        // Checks if the player has been killed before running the code to prevent possible errors
+        if (SnakeTail.snakeAlive)
+        {
+            // Movement & Rotation - Moves & rotates the snake towards the position of the mouse at set speed
+            transform.position = Vector2.MoveTowards(transform.position, GetWorldPosFromMouse(), playerSpeed * Time.deltaTime);
+        }
     }
 
     private Vector2 GetWorldPosFromMouse()
@@ -112,27 +120,31 @@ public class SnakeMovement : MonoBehaviour
 
     private void SpeedBoost()
     {
-        // Used to hold the total length of the list snakeTail in the script SnakeTail for decision making when using the speed boost function
-        snakeLength = SnakeTail.snakeTail.Count;
-
-        // Speed Boost - When the key LeftShift is held down the speed of the snake increases to 4.5 if the snakeLength is greater or equal to 5
-        if (Input.GetKey(KeyCode.LeftShift))
+        // Checks if the player has been killed before running the code to prevent possible errors
+        if (SnakeTail.snakeAlive)
         {
-            if (snakeLength >= 5)
+            // Used to hold the total length of the list snakeTail in the script SnakeTail for decision making when using the speed boost function
+            snakeLength = SnakeTail.snakeTail.Count;
+
+            // Speed Boost - When the key LeftShift is held down the speed of the snake increases to 4.5 if the snakeLength is greater or equal to 5
+            if (Input.GetKey(KeyCode.LeftShift))
             {
-                playerSpeed = 4.5f;
+                if (snakeLength >= 5)
+                {
+                    playerSpeed = 4.5f;
+                }
+
+                else
+                {
+                    playerSpeed = 3f;
+                }
             }
 
-            else
+            // If LeftShift is lifted/ not held or snakeLength becomes less than 5, the speed is reset to 3
+            else if (Input.GetKeyUp(KeyCode.LeftShift))
             {
                 playerSpeed = 3f;
             }
-        }
-
-        // If LeftShift is lifted/ not held or snakeLength becomes less than 5, the speed is reset to 3
-        else if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            playerSpeed = 3f;
         }
     }
 }

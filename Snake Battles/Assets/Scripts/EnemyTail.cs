@@ -53,7 +53,7 @@ public class EnemyTail : MonoBehaviour
 
     private void CalculateEnemyPositions()
     {
-        // Checks if the enemy has been killed before running the code to prevent a NullReferenceException error
+        // Checks if the enemy has been killed before running the code to prevent possible errors
         if (enemyAlive)
         {
             // Calculate the distance between the head and the last segment to be inserted, .magnitude used to make the value read-only
@@ -83,7 +83,7 @@ public class EnemyTail : MonoBehaviour
 
     public void AddEnemyTail()
     {
-        // Checks if the enemy has been killed before running the code to prevent a NullReferenceException error
+        // Checks if the enemy has been killed before running the code to prevent possible errors
         if (enemyAlive)
         {
             // Instantiates a new tail segment and position at the last position in the list positions
