@@ -7,6 +7,7 @@ public class SnakeGrow : MonoBehaviour
     // Set as public so the script is accessible to other scripts
     public SnakeTail SnakeTail;
     public RandomSpawn RandomSpawn;
+    public KillSnake KillSnake;
 
     // The code inside OnTriggerEnter2D() has not been put into a separate method as the code must be inside to access the attribute 'collision'
 

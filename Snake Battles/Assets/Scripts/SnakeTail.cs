@@ -147,20 +147,27 @@ public class SnakeTail : MonoBehaviour
         positions.Clear();
     }
 
+    // The entire purpose of this function is to reset the game so it can replayed in runtime
     public void GameOver()
     {
+        // Pauses the game
         Time.timeScale = 0;
 
+        // Creates a local list called objectsWithFoodTag that will automatically update as food objects are deleted
         GameObject[] objectsWithFoodTag = GameObject.FindGameObjectsWithTag("Food");
 
+        // Since this will contain every food object, it is looped through to essentially clear all food objects from all lists
         foreach (GameObject obj in objectsWithFoodTag)
         {
+            // Destroys the GameObjects
             Destroy(obj);
         }
 
+        // Clears all lists
         RandomSpawn.foodList.Clear();
         KillSnake.enemyOrbs.Clear();
         KillSnake.enemyOrbPositions.Clear();
+        // Kills enemy & resets size counter
         EnemyTail.KillEnemy();
         RandomSpawn.InitialiseSizeCounter();
     }

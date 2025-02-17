@@ -67,25 +67,35 @@ public class RandomSpawn : MonoBehaviour
         // Checks if the player has been killed before running the code to prevent possible errors
         if (SnakeTail.snakeAlive)
         {
-            // Loops through all the items in foodList, checking if each index of an object is in view of the camera
-            // This loop iterates backwards to prevent the issue of potentially skipping elements in the list when they are removed
-            for (int i = foodList.Count - 1; i >= 0; i--)
+            // Creates a local list called objectsWithFoodTag that will automatically update as food objects are deleted
+            GameObject[] objectsWithFoodTag = GameObject.FindGameObjectsWithTag("Food");
+
+            // Since this will contain every food object, it is looped through to essentially check all food objects from all lists
+            foreach (GameObject obj in objectsWithFoodTag)
             {
-                // Makes sure their isn't a null object at the current index by removing it from the list before adding another object
-                if (foodList[i] == null)
-                {
-                    foodList.RemoveAt(i);
-                }
+                // Gets the distance between the player's snake & the object currently being checked
+                float distance = Vector2.Distance(gameObject.transform.position, obj.transform.position);
 
-                // Converts the position of the specified food object from its world position to a viewport point between 0 & 1
-                Vector2 camPos = Camera.main.WorldToViewportPoint(foodList[i].transform.position);
-
-                // Checks if the foodObject's position at a specified index is outside the range of the camera
-                if (camPos.x < 0 || camPos.x > 1 || camPos.y < 0 || camPos.y > 1)
+                if (distance > 10)
                 {
-                    // The GameObject is destroyed first to avoid trying to remove a null object from the list, which would cause an error
-                    Destroy(foodList[i]);
-                    foodList.RemoveAt(i);
+                    // Using int variables, we can get the index of a food object in a particular foodList, & store the index in the int
+                    int opt1 = foodList.IndexOf(obj);
+                    int opt2 = KillSnake.enemyOrbs.IndexOf(obj);
+
+                    // If no index is found, the value of these int variables will be -1
+                    // Therefore if the value is != -1, an index has been found which allows us to run this code if the index is found & from where it was found
+                    if (opt1 != -1)
+                    {
+                        foodList.RemoveAt(opt1);
+                    }
+
+                    if (opt2 != -1)
+                    {
+                        KillSnake.enemyOrbs.RemoveAt(opt2);
+                    }
+
+                    // The object is destroyed after being removed from its respective list to prevent trying to access missing GameObjects
+                    Destroy(obj);
                 }
             }
         }
@@ -150,7 +160,6 @@ public class RandomSpawn : MonoBehaviour
             GameObject newObj = Instantiate(foodChoices[choice], pos, Quaternion.identity);
             // The instantiated object is added to the list to prevent trying to delete the prefab, which would cause an error
             foodList.Add(newObj);
-            KillSnake.enemyOrbs.Add(newObj);
         }
 
         // If the above conditions aren't met, a new position is generated

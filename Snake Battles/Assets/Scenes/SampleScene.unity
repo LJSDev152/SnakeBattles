@@ -1160,6 +1160,7 @@ MonoBehaviour:
   EnemyTail: {fileID: 1011645762}
   SnakeTail: {fileID: 1403285690}
   RandomSpawn: {fileID: 1403285694}
+  KillSnake: {fileID: 1403285695}
 --- !u!50 &1011645765
 Rigidbody2D:
   serializedVersion: 4
