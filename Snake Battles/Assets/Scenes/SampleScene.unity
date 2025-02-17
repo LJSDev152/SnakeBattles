@@ -1202,6 +1202,7 @@ MonoBehaviour:
   SnakeTail: {fileID: 1403285690}
   EnemyTail: {fileID: 1011645762}
   RandomSpawn: {fileID: 1403285694}
+  enemyOrbs: []
   enemyOrbPositions: []
 --- !u!1 &1041574045
 GameObject:
@@ -1646,6 +1647,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RandomSpawn: {fileID: 1403285694}
   EnemyTail: {fileID: 1011645762}
+  KillSnake: {fileID: 1403285695}
   Snake: {fileID: 1403285686}
   SnakeTailObj: {fileID: 1630047863}
   SnakeHeadObj: {fileID: 720364859}
@@ -1666,6 +1668,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SnakeTail: {fileID: 1403285690}
   RandomSpawn: {fileID: 1403285694}
+  KillSnake: {fileID: 1403285695}
 --- !u!58 &1403285692
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1741,12 +1744,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SnakeTail: {fileID: 1403285690}
+  KillSnake: {fileID: 1403285695}
   foodList: []
   foodChoices:
   - {fileID: 8998466730984538448, guid: 4f84da936dd01074787e9449f094cc28, type: 3}
   - {fileID: 8205812033374490755, guid: 77d3c13cb4530664891cd84ac16bef75, type: 3}
   - {fileID: 1574695297583130445, guid: 27675bfee00c24e4cbbfe2211fbff7f2, type: 3}
-  allFoodObjects: []
   foodAmount: 0
   foodText: {fileID: 1041574047}
   playerObj: {fileID: 1403285686}
@@ -1767,6 +1770,7 @@ MonoBehaviour:
   SnakeTail: {fileID: 1403285690}
   EnemyTail: {fileID: 1011645762}
   RandomSpawn: {fileID: 1403285694}
+  enemyOrbs: []
   enemyOrbPositions: []
 --- !u!1 &1476119840
 GameObject:

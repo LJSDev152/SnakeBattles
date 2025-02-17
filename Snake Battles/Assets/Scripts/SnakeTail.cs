@@ -10,6 +10,7 @@ public class SnakeTail : MonoBehaviour
     // Set as public so the script is accessible to other scripts
     public RandomSpawn RandomSpawn;
     public EnemyTail EnemyTail;
+    public KillSnake KillSnake;
 
     public GameObject Snake;
 
@@ -150,25 +151,17 @@ public class SnakeTail : MonoBehaviour
     {
         Time.timeScale = 0;
 
-        // Gets all food objects which are stored inside the list allFoodObjects
-        for (int i = 0; i < (RandomSpawn.allFoodObjects).Count; i++)
+        GameObject[] objectsWithFoodTag = GameObject.FindGameObjectsWithTag("Food");
+
+        foreach (GameObject obj in objectsWithFoodTag)
         {
-            // If the name of the tag of the object at the current index of allFoodObjects is true, run this code
-            // This will always be true as all clones of food objects will have the exact same tag
-            if ((RandomSpawn.allFoodObjects)[i].CompareTag("Food") && (RandomSpawn.allFoodObjects)[i] != null)
-            {
-                // Destroys the gameObject of the current index inside allFoodObjects
-                Destroy((RandomSpawn.allFoodObjects[i]));
-                // Removes each index in turn from the list
-                RandomSpawn.allFoodObjects.RemoveAt(i);
-                // Adjusts the index after removal to avoid skipping the next index
-                i--;
-                
-            }
+            Destroy(obj);
         }
 
-        EnemyTail.KillEnemy();
         RandomSpawn.foodList.Clear();
+        KillSnake.enemyOrbs.Clear();
+        KillSnake.enemyOrbPositions.Clear();
+        EnemyTail.KillEnemy();
         RandomSpawn.InitialiseSizeCounter();
     }
 

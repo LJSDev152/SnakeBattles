@@ -12,11 +12,10 @@ public class RandomSpawn : MonoBehaviour
 {
     // Set as public so the script is accessible to other scripts
     public SnakeTail SnakeTail;
+    public KillSnake KillSnake;
 
     public List<GameObject> foodList = new List<GameObject>();
     public GameObject[] foodChoices = new GameObject[3];
-
-    public List<GameObject> allFoodObjects = new List<GameObject>();
 
     public int foodAmount;
 
@@ -151,7 +150,7 @@ public class RandomSpawn : MonoBehaviour
             GameObject newObj = Instantiate(foodChoices[choice], pos, Quaternion.identity);
             // The instantiated object is added to the list to prevent trying to delete the prefab, which would cause an error
             foodList.Add(newObj);
-            allFoodObjects.Add(newObj);
+            KillSnake.enemyOrbs.Add(newObj);
         }
 
         // If the above conditions aren't met, a new position is generated
