@@ -14,8 +14,12 @@ public class EnemyMovement : MonoBehaviour
     // All set to private as not used in other scripts
     private float enemySpeed = 3f;
 
-    private float distance;
-    private float distanceBetween = 10;
+    private float distanceFromTarget;
+    private float distanceFromTail;
+    private float nearestTail = 1000;
+    private float minDistance = 3;
+    private Vector2 targetPosition;
+    private Vector2 moveBesideDirection;
 
     // Built-in function: Called on first frame
     private void Start()
@@ -34,42 +38,52 @@ public class EnemyMovement : MonoBehaviour
         // Checks if either the player or enemy has been killed before running the code to prevent possible errors
         if (SnakeTail.snakeAlive && EnemyTail.enemyAlive)
         {
-            // Calculate the direction vector from the enemy to the target (SnakeTail)
-            Vector3 direction = SnakeTail.SnakeTailObj.transform.position - transform.position;
+            // Calculates the distance between the player's head (for now) & the enemy's head as the target
+            distanceFromTarget = Vector2.Distance(EnemyTail.EnemyHeadObj.transform.position, SnakeTail.SnakeHeadObj.transform.position);
 
-            // Desired angle (adjust this as needed)
-            float desiredAngle = 45f;
+            // Loops through each of the player's tail positions to find the nearest tail
+            for (int i = (SnakeTail.positions).Count - 1; i >= 0; i--)
+            {
+                // Gets the distance between the enemy's head and the current tail position
+                distanceFromTail = Vector2.Distance(EnemyTail.EnemyHeadObj.transform.position, SnakeTail.positions[i]);
 
-            // Rotate the direction vector by the desired angle
-            direction = RotateVector(direction, desiredAngle).normalized;
+                // If the value of distanceFromTail is less than the current value of nearestTail, the value of nearestTail is updated
+                if (distanceFromTail < nearestTail)
+                {
+                    nearestTail = distanceFromTail;
+                    // Stores the position of the index that is in nearestTail to use as the target
+                    if (nearestTail == distanceFromTail)
+                    {
+                        targetPosition = SnakeTail.positions[i];
+                    }
+                }
+            }
 
-            // Movement - Moves the enemy towards the player (SnakeTail) at the specified speed
-            transform.position = Vector2.MoveTowards(transform.position, SnakeTail.SnakeTailObj.transform.position, enemySpeed * Time.deltaTime);
+            // If the distance to the nearest tail is less than minDistance, move parallel to the player's tail
+            if (nearestTail < minDistance)
+            {
+                // Calculates the direction to the player's head and moves parallel to the player's tail
+                Vector2 directionToHead = ((Vector2)SnakeTail.SnakeHeadObj.transform.position - (Vector2)transform.position).normalized;
 
-            // Rotation - Rotate the enemy to face the target direction at a certain speed
-            RotateTowardsTarget(direction);
+                // Rotates 90 degrees away from the player's tail to move besides it
+                moveBesideDirection = new Vector2(-directionToHead.y, directionToHead.x);
+
+                // Moves the enemy at a perpendicular angle to the player's tail
+                transform.position = Vector2.MoveTowards(transform.position, (Vector2)transform.position + moveBesideDirection, enemySpeed * Time.deltaTime);
+            }
+            else
+            {
+                // Otherwise, the enemy chases the player’s head
+                transform.position = Vector2.MoveTowards(transform.position, SnakeTail.SnakeTailObj.transform.position, enemySpeed * Time.deltaTime);
+            }
+
+            // Used in both scenarios so is placed after conditions
+
+            // Rotation - Rotates the snake at the same speed as the player snake - Used in both scenarios so is placed after conditions
+            transform.Rotate(SnakeMovement.rotateSpeed * Time.deltaTime * -SnakeMovement.velocityX * Vector3.forward);
+
+            // Wipes the value of nearestTail after the check to prevent retaining the value
+            nearestTail = 1000;
         }
-    }
-
-    // Rotates the vector by a specific angle
-    private Vector3 RotateVector(Vector3 vec, float angle)
-    {
-        float radians = Mathf.Deg2Rad * angle;
-        float x = vec.x * Mathf.Cos(radians) - vec.y * Mathf.Sin(radians);
-        float y = vec.x * Mathf.Sin(radians) + vec.y * Mathf.Cos(radians);
-        return new Vector3(x, y, vec.z); // Keep the z-component the same
-    }
-
-    // Rotate the enemy towards the target direction
-    private void RotateTowardsTarget(Vector3 direction)
-    {
-        // Calculate the rotation angle (in degrees) to turn towards the target
-        float step = SnakeMovement.rotateSpeed * Time.deltaTime;
-
-        // Create a rotation based on the direction
-        Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, direction);
-
-        // Smoothly rotate towards the target direction
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
     }
 }
