@@ -1651,7 +1651,7 @@ MonoBehaviour:
   KillSnake: {fileID: 1403285695}
   Snake: {fileID: 1403285686}
   SnakeTailObj: {fileID: 1630047863}
-  SnakeHeadObj: {fileID: 720364859}
+  SnakeHeadObj: {fileID: 0}
   snakeTail: []
   positions: []
   snakeAlive: 1

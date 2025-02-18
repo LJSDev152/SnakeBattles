@@ -44,7 +44,7 @@ public class RandomSpawn : MonoBehaviour
     private void Update()
     {
         SpawnFood();
-        IsFoodObjInCamView();
+        IsFoodObjOutOfView();
     }
 
     // Everything is stored as a method so they can be easily changed to public & be accessible to other scripts if needed, improving their flexibility, reusability & readability of the code
@@ -62,7 +62,7 @@ public class RandomSpawn : MonoBehaviour
         }
     }
 
-    private void IsFoodObjInCamView()
+    private void IsFoodObjOutOfView()
     {
         // Checks if the player has been killed before running the code to prevent possible errors
         if (SnakeTail.snakeAlive)

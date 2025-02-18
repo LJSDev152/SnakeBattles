@@ -150,7 +150,7 @@ public class SnakeTail : MonoBehaviour
     // The entire purpose of this function is to reset the game so it can replayed in runtime
     public void GameOver()
     {
-        // Pauses the game
+        // Pauses the game so nothing is moving once the game ends
         Time.timeScale = 0;
 
         // Creates a local list called objectsWithFoodTag that will automatically update as food objects are deleted
