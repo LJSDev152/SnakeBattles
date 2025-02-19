@@ -15,9 +15,13 @@ public class EnemyMovement : MonoBehaviour
     private float enemySpeed = 3f;
 
     private float distanceFromTarget;
+    private float maxTargetDistance = 10;
+    private float minTargetDistance = 2;
+
     private float distanceFromTail;
     private float nearestTail = 1000;
-    private float minDistance = 3;
+    private float minTailDistance = 3;
+
     private Vector2 targetPosition;
     private Vector2 moveBesideDirection;
 
@@ -59,22 +63,33 @@ public class EnemyMovement : MonoBehaviour
                 }
             }
 
-            // If the distance to the nearest tail is less than minDistance, move parallel to the player's tail
-            if (nearestTail < minDistance)
+            // If nearestTail is > minTargetDistance, run the enemy movement code below
+            if (nearestTail > minTargetDistance)
             {
-                // Calculates the direction to the player's head and moves parallel to the player's tail
-                Vector2 directionToHead = ((Vector2)SnakeTail.SnakeHeadObj.transform.position - (Vector2)transform.position).normalized;
+                // If the distance to the nearest tail is less than minDistance, move parallel to the player's tail
+                if (nearestTail < minTailDistance)
+                {
+                    // Calculates the direction to the player's head and moves parallel to the player's tail
+                    Vector2 directionToHead = ((Vector2)SnakeTail.SnakeHeadObj.transform.position - (Vector2)transform.position).normalized;
 
-                // Rotates 90 degrees away from the player's tail to move besides it
-                moveBesideDirection = new Vector2(-directionToHead.y, directionToHead.x);
+                    // Rotates 90 degrees away from the player's tail to move besides it
+                    moveBesideDirection = new Vector2(-directionToHead.y, directionToHead.x);
 
-                // Moves the enemy at a perpendicular angle to the player's tail
-                transform.position = Vector2.MoveTowards(transform.position, (Vector2)transform.position + moveBesideDirection, enemySpeed * Time.deltaTime);
+                    // Moves the enemy at a perpendicular angle to the player's tail
+                    transform.position = Vector2.MoveTowards(transform.position, (Vector2)transform.position + moveBesideDirection, enemySpeed * Time.deltaTime);
+                }
+
+                else if (nearestTail < maxTargetDistance)
+                {
+                    // Otherwise, the enemy chases the player’s head
+                    transform.position = Vector2.MoveTowards(transform.position, SnakeTail.SnakeHeadObj.transform.position, enemySpeed * Time.deltaTime);
+                }
             }
+
+            // If nearestTail is < minDistance, run the enemy movement code below
             else
             {
-                // Otherwise, the enemy chases the player’s head
-                transform.position = Vector2.MoveTowards(transform.position, SnakeTail.SnakeTailObj.transform.position, enemySpeed * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, SnakeTail.SnakeHeadObj.transform.position, enemySpeed * Time.deltaTime);
             }
 
             // Used in both scenarios so is placed after conditions
@@ -87,3 +102,5 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 }
+
+
