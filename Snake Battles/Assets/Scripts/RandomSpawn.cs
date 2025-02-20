@@ -1,10 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
-using System;
 // Reference for Random
 using Random = UnityEngine.Random;
 
