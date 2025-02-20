@@ -100,7 +100,7 @@ public class SnakeMovement : MonoBehaviour
         moveType = 2;
     }
 
-    private void FollowMousePosition()
+    public void FollowMousePosition()
     {
         // Checks if the player has been killed before running the code to prevent possible errors
         if (SnakeTail.snakeAlive)
