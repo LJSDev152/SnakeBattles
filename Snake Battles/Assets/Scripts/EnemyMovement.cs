@@ -14,13 +14,14 @@ public class EnemyMovement : MonoBehaviour
 
     private float distanceFromTarget;
     private float maxTargetDistance = 10;
-    private float minTargetDistance = 2;
+    [SerializeField] private float minTargetDistance = 5;
 
     private float distanceFromTail;
     private float nearestTail = 1000;
-    private float minTailDistance = 3;
+    [SerializeField] private float minTailDistance = 3;
 
     private Vector2 targetPosition;
+    private Vector2 directionToHead;
     private Vector2 moveBesideDirection;
 
     // Built-in function: Called on first frame
@@ -68,7 +69,7 @@ public class EnemyMovement : MonoBehaviour
                 if (nearestTail < minTailDistance)
                 {
                     // Calculates the direction to the player's head and moves parallel to the player's tail
-                    Vector2 directionToHead = ((Vector2)SnakeTail.SnakeHeadObj.transform.position - (Vector2)transform.position).normalized;
+                    directionToHead = (SnakeTail.SnakeHeadObj.transform.position - transform.position).normalized;
 
                     // Rotates 90 degrees away from the player's tail to move besides it
                     moveBesideDirection = new Vector2(-directionToHead.y, directionToHead.x);
@@ -100,5 +101,6 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 }
+
 
 
