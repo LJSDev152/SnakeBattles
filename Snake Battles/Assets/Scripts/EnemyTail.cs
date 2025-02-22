@@ -22,6 +22,9 @@ public class EnemyTail : MonoBehaviour
     // Built-in function: Called on first frame
     private void Start()
     {
+        // Referenced at the start as when an enemy is cloned, the scripts that were previously dragged on in the inspector no longer exist and must be referenced like this instead
+        RandomSpawn = GameObject.FindGameObjectWithTag("Snake").GetComponent<RandomSpawn>();
+
         InitialiseEnemyPositions();
         // Sets the first tail object to be the head of the tail, used as part of KillSnake
         EnemyHeadObj = enemyTail[0];

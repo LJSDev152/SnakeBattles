@@ -19,8 +19,6 @@ public class RandomSpawn : MonoBehaviour
     // All set to private as not used in other scripts
     [SerializeField] private TextMeshProUGUI foodText;
 
-    [SerializeField] private GameObject playerObj;
-
     private int choice;
 
     private Vector2 pos;

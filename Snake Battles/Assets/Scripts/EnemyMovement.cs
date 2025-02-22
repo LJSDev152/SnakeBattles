@@ -14,20 +14,22 @@ public class EnemyMovement : MonoBehaviour
 
     private float distanceFromTarget;
     private float maxTargetDistance = 10;
-    [SerializeField] private float minTargetDistance = 5;
+    [SerializeField] private float minTargetDistance = 2;
 
     private float distanceFromTail;
     private float nearestTail = 1000;
-    [SerializeField] private float minTailDistance = 3;
+    [SerializeField] private float minTailDistance = 5;
 
-    private Vector2 targetPosition;
     private Vector2 directionToHead;
     private Vector2 moveBesideDirection;
 
     // Built-in function: Called on first frame
     private void Start()
     {
-
+        // Referenced at the start as when an enemy is cloned, the scripts that were previously dragged on in the inspector no longer exist and must be referenced like this instead
+        SnakeMovement = GameObject.FindGameObjectWithTag("Snake").GetComponent<SnakeMovement>();
+        SnakeTail = GameObject.FindGameObjectWithTag("Snake").GetComponent<SnakeTail>();
+        SnakeGrow = GameObject.FindGameObjectWithTag("Snake").GetComponent<SnakeGrow>();
     }
 
     // Built-in Function: Called every frame
@@ -54,11 +56,6 @@ public class EnemyMovement : MonoBehaviour
                 if (distanceFromTail < nearestTail)
                 {
                     nearestTail = distanceFromTail;
-                    // Stores the position of the index that is in nearestTail to use as the target
-                    if (nearestTail == distanceFromTail)
-                    {
-                        targetPosition = SnakeTail.positions[i];
-                    }
                 }
             }
 
