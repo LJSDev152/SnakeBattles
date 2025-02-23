@@ -57,7 +57,6 @@ GameObject:
   - component: {fileID: 4736530985822448713}
   - component: {fileID: 6145256107422148859}
   - component: {fileID: 8456274670581838404}
-  - component: {fileID: 142958171676648237}
   - component: {fileID: 6942509771229947546}
   m_Layer: 0
   m_Name: Enemy Snake
@@ -165,24 +164,6 @@ MonoBehaviour:
   SnakeTail: {fileID: 0}
   RandomSpawn: {fileID: 0}
   KillSnake: {fileID: 0}
---- !u!114 &142958171676648237
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4032457075889699792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36095abcaecdb0642b1dcfd88a32fa2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SnakeTail: {fileID: 0}
-  RandomSpawn: {fileID: 0}
-  enemyList: []
-  Enemy: {fileID: 0}
-  foodNearestDistance: 1000
-  plrNearestDistance: 1000
 --- !u!114 &6942509771229947546
 MonoBehaviour:
   m_ObjectHideFlags: 0

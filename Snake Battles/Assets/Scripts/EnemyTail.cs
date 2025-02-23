@@ -44,7 +44,7 @@ public class EnemyTail : MonoBehaviour
         // Referenced in Update() with an null check as the Enemy(Clone) GameObject is spawned in runtime and doesn't exist before the program is ran
         if (enemyAlive && Enemy == null)
         {
-            Enemy = GameObject.FindGameObjectWithTag("Enemy");
+            Enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<GameObject>();
             Debug.Log("Called");
         }
 
@@ -129,8 +129,6 @@ public class EnemyTail : MonoBehaviour
     {
         // Sets enemyAlive to false to prevent the function CalculateEnemyPositions running when it can't calculate the enemy's position
         enemyAlive = false;
-        // Clears the enemy from enemyList so another enemy can be spawned immediately after one dies
-        RandomEnemySpawn.enemyList.Clear();
         // Destroys the enemy snake game object
         Destroy(Enemy);
     }
