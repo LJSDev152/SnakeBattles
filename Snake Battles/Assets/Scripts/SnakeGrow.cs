@@ -39,10 +39,24 @@ public class SnakeGrow : MonoBehaviour
 
             // Destroying the object, updating foodList & updating the size counter
 
-            // Destroys the touched object with a trigger collider with slight delay to prevent lag
-            Destroy(collision.gameObject, 0.02f);
-            // Removes the specific object the player's snake collides with
-            RandomSpawn.foodList.Remove(collision.gameObject);
+            // Using int variables, we can get the index of a food object in a particular foodList, & store the index in the int
+            int opt1 = RandomSpawn.foodList.IndexOf(collision.gameObject);
+            int opt2 = KillSnake.enemyOrbs.IndexOf(collision.gameObject);
+
+            // If no index is found, the value of these int variables will be -1
+            // Therefore if the value is != -1, an index has been found which allows us to run this code if the index is found & from where it was found
+            if (opt1 != -1)
+            {
+                RandomSpawn.foodList.RemoveAt(opt1);
+            }
+
+            if (opt2 != -1)
+            {
+                KillSnake.enemyOrbs.RemoveAt(opt2);
+            }
+
+            // The object is destroyed after being removed from its respective list to prevent trying to access missing GameObjects
+            Destroy(collision.gameObject);
 
             // The variable foodAmount is updated by 1 each time it is called so "RedFood(Clone)" will increase foodAmount by 3 for example
             // Individual foods identified using names instead of tags as Food tag is already attached to all food objects

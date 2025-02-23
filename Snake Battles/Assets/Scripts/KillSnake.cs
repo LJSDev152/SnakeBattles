@@ -15,7 +15,6 @@ public class KillSnake : MonoBehaviour
     
     private int choice;
     private bool spawningFinished = false;
-    private bool notCalled = true;
 
     // Built-in function: Called on first frame
     private void Start()
@@ -29,10 +28,9 @@ public class KillSnake : MonoBehaviour
     private void Update()
     {
         // Referenced in Update() with an null check as the Enemy(Clone) GameObject is spawned in runtime and doesn't exist before the program is ran
-        if (EnemyTail == null && notCalled)
+        if (SnakeTail.snakeAlive && EnemyTail == null)
         {
             EnemyTail = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyTail>();
-            notCalled = false;
             Debug.Log("Called");
         }
     }

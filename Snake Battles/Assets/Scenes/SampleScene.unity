@@ -1496,8 +1496,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SnakeTail: {fileID: 1403285690}
   RandomSpawn: {fileID: 1403285694}
-  Enemy: {fileID: 4032457075889699792, guid: a6323f7ea14530541a39e8c1de5521dd, type: 3}
   enemyList: []
+  Enemy: {fileID: 4032457075889699792, guid: a6323f7ea14530541a39e8c1de5521dd, type: 3}
   foodNearestDistance: 1000
   plrNearestDistance: 1000
 --- !u!1 &1630047862

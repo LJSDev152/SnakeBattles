@@ -25,8 +25,6 @@ public class SnakeTail : MonoBehaviour
     private float timeEnd = 0.5f;
     private bool isTimerActive = false;
 
-    private bool notCalled = true;
-
     // Built-in function: Called on first frame
     private void Start()
     {
@@ -39,10 +37,9 @@ public class SnakeTail : MonoBehaviour
     private void Update()
     {
         // Referenced in Update() with an null check as the Enemy(Clone) GameObject is spawned in runtime and doesn't exist before the program is ran
-        if (EnemyTail == null && notCalled)
+        if (snakeAlive && EnemyTail == null)
         {
             EnemyTail = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyTail>();
-            notCalled = false;
             Debug.Log("Called");
         }
 
@@ -174,7 +171,10 @@ public class SnakeTail : MonoBehaviour
         KillSnake.enemyOrbs.Clear();
         KillSnake.enemyOrbPositions.Clear();
         // Kills enemy & resets size counter
-        EnemyTail.KillEnemy();
+        if (EnemyTail != null)
+        {
+            EnemyTail.KillEnemy();
+        }
         RandomSpawn.InitialiseSizeCounter();
     }
 

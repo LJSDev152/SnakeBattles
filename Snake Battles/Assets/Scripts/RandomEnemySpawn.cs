@@ -8,12 +8,13 @@ public class RandomEnemySpawn : MonoBehaviour
     // Set as public so the script is accessible to other scripts
     public SnakeTail SnakeTail;
     public RandomSpawn RandomSpawn;
+    public EnemyTail EnemyTail;
+
+    public List<GameObject> enemyList = new List<GameObject>();
 
     // SerializeField allows the value held in the variables below to be visible in the inspector
     // All set to private as not used in other scripts
     [SerializeField] private GameObject Enemy;
-
-    [SerializeField] private List<GameObject> enemyList = new List<GameObject>();
 
     private Vector2 pos;
 
@@ -28,11 +29,25 @@ public class RandomEnemySpawn : MonoBehaviour
         // Referenced at the start as when an enemy is cloned, the scripts that were previously dragged on in the inspector no longer exist and must be referenced like this instead
         SnakeTail = GameObject.FindGameObjectWithTag("Snake").GetComponent<SnakeTail>();
         RandomSpawn = GameObject.FindGameObjectWithTag("Snake").GetComponent<RandomSpawn>();
+
+        SpawnEnemy();
     }
 
     // Built-in Function: Called every frame
     private void Update()
     {
+        // Referenced in Update() with an null check as the Enemy(Clone) GameObject is spawned in runtime and doesn't exist before the program is ran
+        if (EnemyTail == null)
+        {
+            EnemyTail = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyTail>();
+        }
+
+        if (EnemyTail.enemyAlive && Enemy == null)
+        {
+            Enemy = GameObject.FindGameObjectWithTag("Enemy");
+            Debug.Log("Called");
+        }
+
         SpawnEnemy();
     }
 

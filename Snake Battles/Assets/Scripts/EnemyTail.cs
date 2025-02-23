@@ -5,6 +5,7 @@ public class EnemyTail : MonoBehaviour
 {
     // Set as public so the script is accessible to other scripts
     public RandomSpawn RandomSpawn;
+    public RandomEnemySpawn RandomEnemySpawn;
 
     public GameObject Enemy;
 
@@ -33,6 +34,20 @@ public class EnemyTail : MonoBehaviour
     // Built-in Function: Called every frame
     private void Update()
     {
+        // Referenced in Update() with an null check as the Enemy(Clone) GameObject is spawned in runtime and doesn't exist before the program is ran
+        if (enemyAlive && RandomEnemySpawn == null)
+        {
+            RandomEnemySpawn = GameObject.FindGameObjectWithTag("Enemy").GetComponent<RandomEnemySpawn>();
+            Debug.Log("Called");
+        }
+
+        // Referenced in Update() with an null check as the Enemy(Clone) GameObject is spawned in runtime and doesn't exist before the program is ran
+        if (enemyAlive && Enemy == null)
+        {
+            Enemy = GameObject.FindGameObjectWithTag("Enemy");
+            Debug.Log("Called");
+        }
+
         CalculateEnemyPositions();
     }
 
@@ -114,6 +129,8 @@ public class EnemyTail : MonoBehaviour
     {
         // Sets enemyAlive to false to prevent the function CalculateEnemyPositions running when it can't calculate the enemy's position
         enemyAlive = false;
+        // Clears the enemy from enemyList so another enemy can be spawned immediately after one dies
+        RandomEnemySpawn.enemyList.Clear();
         // Destroys the enemy snake game object
         Destroy(Enemy);
     }
