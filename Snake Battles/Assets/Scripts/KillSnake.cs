@@ -16,22 +16,13 @@ public class KillSnake : MonoBehaviour
     private int choice;
     private bool spawningFinished = false;
 
-    // Built-in function: Called on first frame
-    private void Start()
-    {
-        // Referenced at the start as when an enemy is cloned, the scripts that were previously dragged on in the inspector no longer exist and must be referenced like this instead
-        SnakeTail = GameObject.FindGameObjectWithTag("Snake").GetComponent<SnakeTail>();
-        RandomSpawn = GameObject.FindGameObjectWithTag("Snake").GetComponent<RandomSpawn>();
-    }
-
     // Built-in Function: Called every frame
     private void Update()
     {
         // Referenced in Update() with an null check as the Enemy(Clone) GameObject is spawned in runtime and doesn't exist before the program is ran
-        if (SnakeTail.snakeAlive && EnemyTail == null)
+        if (EnemyTail == null && SnakeTail.snakeAlive)
         {
             EnemyTail = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyTail>();
-            Debug.Log("Called");
         }
     }
 

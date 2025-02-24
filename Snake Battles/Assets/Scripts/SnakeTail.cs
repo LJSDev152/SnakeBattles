@@ -29,18 +29,15 @@ public class SnakeTail : MonoBehaviour
     private void Start()
     {
         InitialisePositions();
-        // Sets the first tail object to be the head of the tail, used as part of KillSnake
-        SnakeHeadObj = snakeTail[0];
     }
 
     // Built-in Function: Called every frame
     private void Update()
     {
         // Referenced in Update() with an null check as the Enemy(Clone) GameObject is spawned in runtime and doesn't exist before the program is ran
-        if (snakeAlive && EnemyTail == null)
+        if (EnemyTail == null && snakeAlive)
         {
             EnemyTail = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyTail>();
-            Debug.Log("Called");
         }
 
         CalculatePositions();
@@ -58,7 +55,10 @@ public class SnakeTail : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             AddTail();
-        }       
+        }
+
+        // Sets the first tail object to be the head of the tail, used as part of KillSnake
+        SnakeHeadObj = snakeTail[0];
     }
 
     private void CalculatePositions()

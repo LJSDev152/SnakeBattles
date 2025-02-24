@@ -8,18 +8,19 @@ public class EnemyGrow : MonoBehaviour
     public RandomSpawn RandomSpawn;
     public KillSnake KillSnake;
 
-    // Built-in function: Called on first frame
-    private void Start()
+    // Built-in Function: Called every frame
+    private void Update()
     {
-        // Referenced at the start as when an enemy is cloned, the scripts that were previously dragged on in the inspector no longer exist and must be referenced like this instead
-        SnakeTail = GameObject.FindGameObjectWithTag("Snake").GetComponent<SnakeTail>();
-        RandomSpawn = GameObject.FindGameObjectWithTag("Snake").GetComponent<RandomSpawn>();
-        KillSnake = GameObject.FindGameObjectWithTag("Snake").GetComponent<KillSnake>();
+        // Referenced in Update() with an null check as the Enemy(Clone) GameObject is spawned in runtime and doesn't exist before the program is ran
+        if (EnemyTail == null && SnakeTail.snakeAlive)
+        {
+            EnemyTail = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyTail>();
+        }
     }
 
     // The code inside OnTriggerEnter2D() has not been put into a separate method as the code must be inside to access the attribute 'collision'
 
-    // Built-in function: Called whenever an object with a RigidBody2D & Collider2D (EnemySnake) collides with an object with a Collider2D set as trigger (Food)
+        // Built-in function: Called whenever an object with a RigidBody2D & Collider2D (EnemySnake) collides with an object with a Collider2D set as trigger (Food)
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // Checks if either the player or enemy has been killed before running the code to prevent possible errors

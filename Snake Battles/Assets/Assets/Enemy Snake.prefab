@@ -54,10 +54,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3318824374080733473}
   - component: {fileID: 3918071804400533612}
-  - component: {fileID: 4736530985822448713}
-  - component: {fileID: 6145256107422148859}
-  - component: {fileID: 8456274670581838404}
-  - component: {fileID: 6942509771229947546}
   m_Layer: 0
   m_Name: Enemy Snake
   m_TagString: Enemy
@@ -74,13 +70,13 @@ Transform:
   m_GameObject: {fileID: 4032457075889699792}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2766452037555759384}
   - {fileID: 1078308308664019196}
-  - {fileID: 5532022696312454665}
+  - {fileID: 4931499647358007441}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &3918071804400533612
@@ -110,77 +106,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &4736530985822448713
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4032457075889699792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00548cc31c394174faf6b1e6b97d73b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SnakeMovement: {fileID: 0}
-  SnakeTail: {fileID: 0}
-  SnakeGrow: {fileID: 0}
-  EnemyTail: {fileID: 6145256107422148859}
-  minTargetDistance: 2
-  minTailDistance: 3
---- !u!114 &6145256107422148859
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4032457075889699792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df9dde22a7e4df7478a1fe1b2f9901fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RandomSpawn: {fileID: 0}
-  RandomEnemySpawn: {fileID: 0}
-  Enemy: {fileID: 4032457075889699792}
-  EnemyTailObj: {fileID: 5532022696312454665}
-  EnemyHeadObj: {fileID: 0}
-  enemyTail: []
-  enemyPositions: []
-  enemyAlive: 1
---- !u!114 &8456274670581838404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4032457075889699792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 427fb6d185c97814ea279a9b04b0c29b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EnemyTail: {fileID: 6145256107422148859}
-  SnakeTail: {fileID: 0}
-  RandomSpawn: {fileID: 0}
-  KillSnake: {fileID: 0}
---- !u!114 &6942509771229947546
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4032457075889699792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29de760c2230a7c4e8b38ae28497c601, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SnakeTail: {fileID: 0}
-  EnemyTail: {fileID: 6145256107422148859}
-  RandomSpawn: {fileID: 0}
-  enemyOrbs: []
-  enemyOrbPositions: []
 --- !u!1 &4279772369639682225
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,7 +191,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &7203037603039685698
+--- !u!1 &4436070201157405246
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -274,9 +199,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5532022696312454665}
-  - component: {fileID: 5051194349398577858}
-  - component: {fileID: 8535049605167846612}
+  - component: {fileID: 4931499647358007441}
+  - component: {fileID: 72959195145815576}
+  - component: {fileID: 1901320439618552926}
   m_Layer: 0
   m_Name: EnemyTail
   m_TagString: Untagged
@@ -284,13 +209,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5532022696312454665
+--- !u!4 &4931499647358007441
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7203037603039685698}
+  m_GameObject: {fileID: 4436070201157405246}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -299,13 +224,13 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3318824374080733473}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &5051194349398577858
+--- !u!212 &72959195145815576
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7203037603039685698}
+  m_GameObject: {fileID: 4436070201157405246}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -351,13 +276,13 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &8535049605167846612
+--- !u!58 &1901320439618552926
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7203037603039685698}
+  m_GameObject: {fileID: 4436070201157405246}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}

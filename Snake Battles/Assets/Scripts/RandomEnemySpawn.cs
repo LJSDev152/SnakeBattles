@@ -14,6 +14,7 @@ public class RandomEnemySpawn : MonoBehaviour
 
     // SerializeField allows the value held in the variables below to be visible in the inspector
     // All set to private as not used in other scripts
+    [SerializeField] private GameObject EnemyHolder;
     [SerializeField] private GameObject Enemy;
 
     private Vector2 pos;
@@ -26,10 +27,6 @@ public class RandomEnemySpawn : MonoBehaviour
     // Built-in function: Called on first frame
     private void Start()
     {
-        // Referenced at the start as when an enemy is cloned, the scripts that were previously dragged on in the inspector no longer exist and must be referenced like this instead
-        SnakeTail = GameObject.FindGameObjectWithTag("Snake").GetComponent<SnakeTail>();
-        RandomSpawn = GameObject.FindGameObjectWithTag("Snake").GetComponent<RandomSpawn>();
-
         SpawnEnemy();
     }
 
@@ -37,15 +34,14 @@ public class RandomEnemySpawn : MonoBehaviour
     private void Update()
     {
         // Referenced in Update() with an null check as the Enemy(Clone) GameObject is spawned in runtime and doesn't exist before the program is ran
-        if (EnemyTail == null)
+        if (EnemyTail == null && SnakeTail.snakeAlive)
         {
             EnemyTail = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyTail>();
         }
 
-        if (EnemyTail.enemyAlive && Enemy == null)
+        if (Enemy == null && SnakeTail.snakeAlive && EnemyTail.enemyAlive)
         {
             Enemy = GameObject.FindGameObjectWithTag("Enemy");
-            Debug.Log("Called");
         }
 
         SpawnEnemy();
@@ -116,6 +112,8 @@ public class RandomEnemySpawn : MonoBehaviour
         {
             // Generates a random object inside foodChoices at a random viewport position inside the view of the camera
             GameObject newObj = Instantiate(Enemy, pos, Quaternion.identity);
+            // Sets the parent of the new object to EnemyHolder & the true condition at the end ensures the child's previous world position is kept
+            newObj.transform.SetParent(EnemyHolder.transform, true);
             // The instantiated object is added to the list to prevent trying to delete the prefab, which would cause an error
             enemyList.Add(newObj);
         }

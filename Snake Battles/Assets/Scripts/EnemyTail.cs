@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class EnemyTail : MonoBehaviour
 {
     // Set as public so the script is accessible to other scripts
     public RandomSpawn RandomSpawn;
-    public RandomEnemySpawn RandomEnemySpawn;
+    public SnakeTail SnakeTail;
 
     public GameObject Enemy;
 
@@ -19,33 +20,31 @@ public class EnemyTail : MonoBehaviour
 
     // Set to private as not used in other scripts
     private float circDiameter = 0.5f;
+    private bool notInitialised = true;
 
     // Built-in function: Called on first frame
     private void Start()
     {
-        // Referenced at the start as when an enemy is cloned, the scripts that were previously dragged on in the inspector no longer exist and must be referenced like this instead
-        RandomSpawn = GameObject.FindGameObjectWithTag("Snake").GetComponent<RandomSpawn>();
-
-        InitialiseEnemyPositions();
-        // Sets the first tail object to be the head of the tail, used as part of KillSnake
-        EnemyHeadObj = enemyTail[0];
+        
     }
 
     // Built-in Function: Called every frame
     private void Update()
     {
         // Referenced in Update() with an null check as the Enemy(Clone) GameObject is spawned in runtime and doesn't exist before the program is ran
-        if (enemyAlive && RandomEnemySpawn == null)
-        {
-            RandomEnemySpawn = GameObject.FindGameObjectWithTag("Enemy").GetComponent<RandomEnemySpawn>();
-            Debug.Log("Called");
-        }
-
-        // Referenced in Update() with an null check as the Enemy(Clone) GameObject is spawned in runtime and doesn't exist before the program is ran
-        if (enemyAlive && Enemy == null)
+        if (Enemy == null && SnakeTail.snakeAlive && enemyAlive)
         {
             Enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<GameObject>();
-            Debug.Log("Called");
+        }
+
+        if (EnemyTailObj == null && SnakeTail.snakeAlive && enemyAlive)
+        {
+            EnemyTailObj = Enemy.transform.Find("EnemyTail");
+        }
+
+        if (EnemyTailObj != null && notInitialised)
+        {
+            InitialiseEnemyPositions();
         }
 
         CalculateEnemyPositions();
@@ -63,6 +62,11 @@ public class EnemyTail : MonoBehaviour
         {
             AddEnemyTail();
         }
+
+        // Sets the first tail object to be the head of the tail, used as part of KillSnake
+        EnemyHeadObj = enemyTail[0];
+
+        notInitialised = false;
     }
 
     private void CalculateEnemyPositions()
@@ -102,6 +106,8 @@ public class EnemyTail : MonoBehaviour
         {
             // Instantiates a new tail segment and position at the last position in the list positions
             Transform eTail = Instantiate(EnemyTailObj, enemyPositions[enemyPositions.Count - 1], Quaternion.identity, transform);
+            // Sets the parent of the new object to EnemyHolder & the true condition at the end ensures the child's previous world position is kept
+            eTail.transform.SetParent(Enemy.transform, true);
             // Added to both lists to avoid inconsistencies between the two that may lead to inaccurate calculations
             enemyTail.Add(eTail);
             enemyPositions.Add(eTail.position);
